@@ -1,16 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Aaron Jacobson</Authors>
     <PackageId>AWJ.SalesforceSdk</PackageId>
-    <Description>.NET Core implementation of the Salesforce API</Description>
+    <Description>.NET implementation of the Salesforce API</Description>
     <Copyright>Copyright 2019</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/awjacobson/SalesforceSdk</PackageProjectUrl>
     <RepositoryUrl>https://github.com/awjacobson/SalesforceSdk</RepositoryUrl>
     <PackageTags>Salesforce</PackageTags>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +21,11 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
-
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  
   <ItemGroup>
     <None Include="..\LICENSE.md">
       <Pack>True</Pack>
