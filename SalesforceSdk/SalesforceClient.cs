@@ -35,6 +35,10 @@ namespace SalesforceSdk.Repositories
         protected string ApiEndpoint => $"/services/data/v{Version}";
 
         public bool IsSandbox { get; set; }
+
+        /// <summary>
+        /// Default value is 46.0
+        /// </summary>
         public string Version { get; set; } = "46.0";
         public string Username { get; set; }
         public string Password { get; set; }

@@ -8,6 +8,7 @@ namespace SalesforceSdk.Models
         /// The state to update the job to. Use UploadComplete to close a job, or
         /// Aborted to abort a job.
         /// </summary>
+        [JsonProperty("state")]
         public string State { get; set; }
     }
 

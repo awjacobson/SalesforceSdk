@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SalesforceSdk.Extensions;
 using SalesforceSdk.Models;
 using System;
 using System.Collections.Generic;
@@ -63,11 +64,6 @@ namespace SalesforceSdk.Repositories
             return response.IsSuccessStatusCode;
         }
 
-        public void CloseJob()
-        {
-
-        }
-
         public GetAllJobsResponse GetAllJobs()
         {
             var response = _client.GetAsync($"{ApiEndpoint}/jobs/ingest").Result;
@@ -81,19 +77,35 @@ namespace SalesforceSdk.Repositories
             return null;
         }
 
-        public void CloseJob(string jobId)
+        public bool CloseJob(string jobId)
         {
-            CloseOrAbortJob(jobId, "UploadComplete");
+            var closeOrAbortResponse = CloseOrAbortJob(jobId, "UploadComplete");
+            return closeOrAbortResponse != null;
         }
 
-        public void AbortJob(string jobId)
+        public bool AbortJob(string jobId)
         {
-            CloseOrAbortJob(jobId, "Aborted");
+            var closeOrAbortResponse = CloseOrAbortJob(jobId, "Aborted");
+            return closeOrAbortResponse != null;
         }
 
-        private void CloseOrAbortJob(string jobId, string state)
+        private CloseOrAbortResponse CloseOrAbortJob(string jobId, string state)
         {
+            var request = new CloseOrAbortJobRequest
+            {
+                State = state
+            };
+            var stringContent = JsonConvert.SerializeObject(request);
+            var content = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            var response = _client.PatchAsync($"{ApiEndpoint}/jobs/ingest/{jobId}", content).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+                var closeOrAbortResponse = JsonConvert.DeserializeObject<CloseOrAbortResponse>(jsonResponse);
+                return closeOrAbortResponse;
+            }
 
+            return null;
         }
 
         public bool DeleteJob(string jobId)
