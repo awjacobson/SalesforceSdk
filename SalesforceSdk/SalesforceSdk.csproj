@@ -6,8 +6,11 @@
     <Authors>Aaron Jacobson</Authors>
     <PackageId>AWJ.SalesforceSdk</PackageId>
     <Description>.NET Core implementation of the Salesforce API</Description>
-    <Copyright>2019</Copyright>
+    <Copyright>Copyright 2019</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/awjacobson/SalesforceSdk</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/awjacobson/SalesforceSdk</RepositoryUrl>
+    <PackageTags>Salesforce</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
