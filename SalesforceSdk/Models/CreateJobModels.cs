@@ -92,6 +92,11 @@ namespace SalesforceSdk.Models
         public string ExternalIdFieldName { get; set; }
     }
 
+    public static class Objects
+    {
+        public static readonly string CONTACT = "Contact";
+    }
+
     public static class ColumnDelimiters
     {
         public static readonly string BACKQUOTE = "BACKQUOTE";
@@ -123,5 +128,38 @@ namespace SalesforceSdk.Models
         public static readonly string DELETE = "delete";
         public static readonly string UPDATE = "update";
         public static readonly string UPSERT = "upsert";
+    }
+
+    public static class States
+    {
+        /// <summary>
+        /// The job was created and is open for data uploads.
+        /// </summary>
+        public static readonly string OPEN = "Open";
+
+        /// <summary>
+        /// All job data has been uploaded and the job is ready to be processed.
+        /// Salesforce has put the job in the queue.
+        /// </summary>
+        public static readonly string UPLOADCOMPLETE = "UploadComplete";
+
+        /// <summary>
+        /// The job is being processed by Salesforce. This includes automatic
+        /// optimized chunking of job data and processing of job operations.
+        /// </summary>
+        public static readonly string INPROGRESS = "InProgress";
+
+        /// <summary>
+        /// The job was processed.
+        /// </summary>
+        public static readonly string JOBCOMPLETE = "JobComplete";
+
+        /// <summary>
+        /// The job was canceled by the job creator, or by a user with the
+        /// “Manage Data Integrations” permission.
+        /// </summary>
+        public static readonly string ABORTED = "Aborted";
+
+        public static readonly string FAILED = "Failed";
     }
 }

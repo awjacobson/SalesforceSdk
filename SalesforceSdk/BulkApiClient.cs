@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
 using SalesforceSdk.Extensions;
 using SalesforceSdk.Models;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace SalesforceSdk.Repositories
+namespace SalesforceSdk
 {
     public class BulkApiClient : SalesforceClient
     {
@@ -18,11 +16,12 @@ namespace SalesforceSdk.Repositories
         /// <remarks>
         /// https://developer.salesforce.com/docs/atlas.en-us.api_bulk_v2.meta/api_bulk_v2/create_job.htm
         /// </remarks>
-        public CreateJobResponse CreateJob()
+        /// <param name="obj">The object type for the data being processed (ex. Account).</param>
+        public CreateJobResponse CreateJob(string obj)
         {
             var request = new CreateJobRequest
             {
-                Object = "Account",
+                Object = obj,
                 ContentType = ContentTypes.CSV,
                 Operation = Operations.INSERT,
                 LineEnding = LineEndings.CRLF
@@ -59,8 +58,13 @@ namespace SalesforceSdk.Repositories
         /// </param>
         public bool UploadJobData(string contentUrl, string csvContent)
         {
-            var content = new StringContent(csvContent, Encoding.UTF8, "text/csv");
-            var response = _client.PostAsync(contentUrl, content).Result;
+            /*
+             * Salesforce Bulk API 2.0 returns an error. Conflict
+             * https://developer.salesforce.com/forums/?id=9060G0000005rE7QAI
+             */
+            var content = new StringContent(csvContent, Encoding.UTF8);
+            content.Headers.ContentType = MediaTypeHeaderValue.Parse("text/csv");
+            var response = _client.PutAsync(contentUrl, content).Result;
             return response.IsSuccessStatusCode;
         }
 

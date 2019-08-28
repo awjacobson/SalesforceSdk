@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace SalesforceSdk.Models
 {
+    [DebuggerDisplay("Id={Id}, State={State}")]
     public class JobInfo
     {
         /// <summary>
@@ -125,5 +127,13 @@ namespace SalesforceSdk.Models
         /// </summary>
         [JsonProperty("systemModstamp")]
         public string SystemModstamp { get; set; }
+
+        public bool CanDelete()
+        {
+            return State == States.UPLOADCOMPLETE |
+                State == States.JOBCOMPLETE |
+                State == States.ABORTED |
+                State == States.FAILED;
+        }
     }
 }
